@@ -16,24 +16,42 @@ module.exports.CharacterInfo = function CharacterInfo(website, result) {
       const data = res.data;
       const $ = cheerio.load(data);
 
-      let content = []
+      let content = [];
       let items = [];
       let characters = [];
+      let PlayerInfo = [];
+      let CharacterList = [];
 
       const num = $(".active").find("a").text();
       if (!num) {
-        return result.send('Error: Player not found.')
-      } else if (num == 'Characters (0)') {
-        return result.send('Error: Data not found.')
+        return result.send("Error: Player not found.");
+      } else if (num == "Characters (0)") {
+        return result.send("Error: Data not found.");
       }
-      content.push({ amount: num });
+      let filter = true;
+      $(".summary tbody tr", data).each(function () {
+        $(this)
+          .find("td", data)
+          .each(function () {
+            const value = $(this).text();
+
+            if (filter == true) {
+              filter = false;
+            } else {
+              filter = true;
+              PlayerInfo.push(value);
+              console.log(value);
+            }
+          });
+      });
+
       $("#e tbody tr", data).each(function () {
         $(this)
           .find("td", data)
           .each(function () {
             const value = $(this).text();
-            if(value != '') {
-            characters.push(value);
+            if (value != "") {
+              characters.push(value);
             }
           });
 
@@ -49,7 +67,7 @@ module.exports.CharacterInfo = function CharacterInfo(website, result) {
               url: itemurl,
             });
           });
-        content.push({
+        CharacterList.push({
           character: characters[0],
           level: characters[1],
           fame: characters[2],
@@ -58,12 +76,19 @@ module.exports.CharacterInfo = function CharacterInfo(website, result) {
         });
         items = [];
         characters = [];
-    }); 
-        return result.json(content)
-        
-
-});
+      });
+      content.push({
+        Characters: PlayerInfo[0],
+        Skins: PlayerInfo[1],
+        Exaltations: PlayerInfo[2],
+        Fame: PlayerInfo[3],
+        Rank: PlayerInfo[4],
+        AccountFame: PlayerInfo[5],
+        CharacterList: CharacterList,
+      });
+      return result.json(content);
+    });
   } catch (error) {
-    console.log(error, error.message);
+    console.log(error);
   }
 };

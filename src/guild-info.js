@@ -19,13 +19,12 @@ module.exports.GuildInfo = function GuildInfo(website, result) {
       let content = [];
       let members = [];
       let guildInfo = []
-      membercache = [];
+      let membercache = [];
 
       let guild = $(".entity-name", data).text();
       if (!guild) {
         return result.send('Error: Guild not Found.')
       }
-      content.push({ guild: guild });
       let filter = true;
       $(".summary tbody tr", data).each(function () {
         $(this)
@@ -57,21 +56,22 @@ module.exports.GuildInfo = function GuildInfo(website, result) {
               guild_rank: membercache[1],
               fame: membercache[2],
               star_rank: membercache[3],
-              characters: membercache[4]
+              characters: membercache[4],
             });
             membercache = []
           });
       });
       content.push({
+        Guild: guild,
         Members: guildInfo[0],
         Characters: guildInfo[1],
         Fame: guildInfo[2],
         MostActiveOn: guildInfo[3],
         GuildMemberData: members,
-      });
+      })
       return result.json(content);
     });
   } catch (error) {
-    console.log(error, error.message);
+    console.log(error);
   }
 };
