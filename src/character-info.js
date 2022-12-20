@@ -40,7 +40,6 @@ module.exports.CharacterInfo = function CharacterInfo(website, result) {
             } else {
               filter = true;
               PlayerInfo.push(value);
-              console.log(value);
             }
           });
       });
