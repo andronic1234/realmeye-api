@@ -1,6 +1,5 @@
 const cheerio = require("cheerio");
 const axios = require("axios");
-const fs = require("fs");
 const express = require("express");
 
 const app = express();
@@ -22,8 +21,13 @@ module.exports.CharacterInfo = function CharacterInfo(website, result) {
       let characters = [];
 
       const num = $(".active").find("a").text();
+      if (!num) {
+        return result.send('Error: Player not found.')
+      } else if (num == 'Characters (0)') {
+        return result.send('Error: Data not found.')
+      }
       content.push({ amount: num });
-      $("#e tbody tr", data).each(function (i, element) {
+      $("#e tbody tr", data).each(function () {
         $(this)
           .find("td", data)
           .each(function () {
