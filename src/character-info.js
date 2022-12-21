@@ -24,9 +24,9 @@ module.exports.CharacterInfo = function CharacterInfo(website, result) {
 
       const num = $(".active").find("a").text();
       if (!num) {
-        return result.send("Error: Player not found.");
+        return result.json({error: 'Not Found'})
       } else if (num == "Characters (0)") {
-        return result.send("Error: Data not found.");
+        return result.json({error: 'Data Unavailable'})
       }
       let filter = true;
       $(".summary tbody tr", data).each(function () {
