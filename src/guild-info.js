@@ -23,7 +23,7 @@ module.exports.GuildInfo = function GuildInfo(website, result) {
 
       let guild = $(".entity-name", data).text();
       if (!guild) {
-        return result.send('Error: Guild not Found.')
+        return result.json({error: 'Not Found'})
       }
       let filter = true;
       $(".summary tbody tr", data).each(function () {
@@ -39,7 +39,7 @@ module.exports.GuildInfo = function GuildInfo(website, result) {
               guildInfo.push(value);
             }
           });
-
+        });
         $('#e tbody tr', data)
           .each(function () {
             $(this)
@@ -60,7 +60,7 @@ module.exports.GuildInfo = function GuildInfo(website, result) {
             });
             membercache = []
           });
-      });
+
       content.push({
         Guild: guild,
         Members: guildInfo[0],
