@@ -3,7 +3,7 @@ const axios = require("axios");
 const express = require("express");
 
 const app = express();
-module.exports.CharacterInfo = function CharacterInfo(website, result) {
+module.exports.PlayerInfo = function PlayerInfo(website, result) {
   try {
     axios(website, {
       headers: {
@@ -24,10 +24,11 @@ module.exports.CharacterInfo = function CharacterInfo(website, result) {
 
       const num = $(".active").find("a").text();
       if (!num) {
-        return result.json({error: 'Not Found'})
+        return result.json({ error: "Not Found" });
       } else if (num == "Characters (0)") {
-        return result.json({error: 'Data Unavailable'})
+        return result.json({ error: "Data Unavailable" });
       }
+      let PlayerName = $(".entity-name", data).text();
       let filter = true;
       $(".summary tbody tr", data).each(function () {
         $(this)
@@ -44,7 +45,7 @@ module.exports.CharacterInfo = function CharacterInfo(website, result) {
           });
       });
 
-      $("#e tbody tr", data).each(function () {
+      $(".table-responsive table tbody tr", data).each(function () {
         $(this)
           .find("td", data)
           .each(function () {
@@ -58,13 +59,20 @@ module.exports.CharacterInfo = function CharacterInfo(website, result) {
           .find(".item-wrapper", data)
           .each(function () {
             let url = $(this).find("a").attr("href");
+            let item = $(this).find(".item").attr("title");
 
-            let itemurl = "https://www.realmeye.com" + url;
+            if (url == undefined) {
+              items.push({
+                title: "No Item",
+              });
+            } else {
+              let itemurl = "https://www.realmeye.com" + url;
 
-            items.push({
-              title: itemurl.slice(30),
-              url: itemurl,
-            });
+              items.push({
+                title: item,
+                url: itemurl,
+              });
+            }
           });
         CharacterList.push({
           character: characters[0],
@@ -77,6 +85,7 @@ module.exports.CharacterInfo = function CharacterInfo(website, result) {
         characters = [];
       });
       content.push({
+        Player: PlayerName,
         Characters: PlayerInfo[0],
         Skins: PlayerInfo[1],
         Exaltations: PlayerInfo[2],

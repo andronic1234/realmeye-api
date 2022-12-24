@@ -18,12 +18,12 @@ module.exports.GuildInfo = function GuildInfo(website, result) {
 
       let content = [];
       let members = [];
-      let guildInfo = []
+      let guildInfo = [];
       let membercache = [];
 
       let guild = $(".entity-name", data).text();
       if (!guild) {
-        return result.json({error: 'Not Found'})
+        return result.json({ error: "Not Found" });
       }
       let filter = true;
       $(".summary tbody tr", data).each(function () {
@@ -39,27 +39,26 @@ module.exports.GuildInfo = function GuildInfo(website, result) {
               guildInfo.push(value);
             }
           });
-        });
-        $('#e tbody tr', data)
+      });
+      $(".table-responsive table tbody tr", data).each(function () {
+        $(this)
+          .find("td", data)
           .each(function () {
-            $(this)
-              .find("td", data)
-              .each(function () {
-                const value = $(this).text()
-                if(value != ''){
-                membercache.push(value)
-                }
-              });
-              
-            members.push({
-              name: membercache[0],
-              guild_rank: membercache[1],
-              fame: membercache[2],
-              star_rank: membercache[3],
-              characters: membercache[4],
-            });
-            membercache = []
+            const value = $(this).text();
+            if (value !== "") {
+              membercache.push(value);
+            }
           });
+
+        members.push({
+          name: membercache[0],
+          guild_rank: membercache[1],
+          fame: membercache[2],
+          star_rank: membercache[3],
+          characters: membercache[4],
+        });
+        membercache = [];
+      });
 
       content.push({
         Guild: guild,
@@ -68,7 +67,7 @@ module.exports.GuildInfo = function GuildInfo(website, result) {
         Fame: guildInfo[2],
         MostActiveOn: guildInfo[3],
         GuildMemberData: members,
-      })
+      });
       return result.json(content);
     });
   } catch (error) {
