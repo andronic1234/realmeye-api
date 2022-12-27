@@ -43,6 +43,8 @@ https://realmeye-api.glitch.me/player/<b>[Player_Name]</b>
 
 - [axios](https://www.npmjs.com/package/axios)
 
+- [sharp](https://www.npmjs.com/package/sharp)
+
 <br>
 
 ##### *If you would like more data scraped from the website, message me on discord and I will implement it - Andronic123#8281*
