@@ -27,6 +27,15 @@ https://realmeye-api.glitch.me/player/<b>[Player_Name]</b>
 
 <br>
 
+#### You can also get item images using the following parameters:
+
+https://realmeye-api.glitch.me/player/<b>[Player_Name]</b>/<b>[Character]</b>/<b>[Item]</b>*
+
+##### *e.g. <br> weapon | ability | armor | ring
+
+<br><br>
+
+
 #### If you want to run the API locally, you can do so by running this command on the terminal:
 
 > npm start
