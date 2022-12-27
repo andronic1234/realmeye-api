@@ -31,18 +31,26 @@ module.exports.itemImg = async function itemImg(
             $(this)
               .find(".item-wrapper", data)
               .each(function () {
-                let item = $(this)
-                  .find(".item")
-                  .attr("style")
-                  .replace(/\D/g, " ")
-                  .replace(/  +/g, " ")
-                  .slice(1, -1);
-                var b = item.split(" ").map(function (item) {
-                  return parseInt(item, 10);
-                });
-                Coords.push({
-                  Coordinates: b,
-                });
+                let empty = $(this).find(".item").attr("title");
+                console.log(empty);
+                if (empty == "Empty slot") {
+                  Coords.push({
+                    Coordinates: [0, 322],
+                  });
+                } else {
+                  let item = $(this)
+                    .find(".item")
+                    .attr("style")
+                    .replace(/\D/g, " ")
+                    .replace(/  +/g, " ")
+                    .slice(1, -1);
+                  var b = item.split(" ").map(function (item) {
+                    return parseInt(item, 10);
+                  });
+                  Coords.push({
+                    Coordinates: b,
+                  });
+                }
               });
           }
         });
@@ -61,7 +69,6 @@ module.exports.itemImg = async function itemImg(
             width: 46,
             height: 46,
           })
-          .png()
           .toBuffer()
           .then((data) => {
             res.end(data);
@@ -76,7 +83,6 @@ module.exports.itemImg = async function itemImg(
             width: 46,
             height: 46,
           })
-          .png()
           .toBuffer()
           .then((data) => {
             res.end(data);
@@ -92,7 +98,6 @@ module.exports.itemImg = async function itemImg(
             width: 46,
             height: 46,
           })
-          .png()
           .toBuffer()
           .then((data) => {
             res.end(data);
@@ -107,7 +112,6 @@ module.exports.itemImg = async function itemImg(
             width: 46,
             height: 46,
           })
-          .png()
           .toBuffer()
           .then((data) => {
             res.end(data);
