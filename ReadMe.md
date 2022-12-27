@@ -2,7 +2,12 @@
 
 #### A Web Scraper that takes data from the website: https://www.realmeye.com/
 
+<br>
+
+#### *API hosted on https://realmeye-api.glitch.me*
+
 <br><br>
+
 
 ## <b>Usage:</b>
 
