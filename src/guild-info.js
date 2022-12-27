@@ -1,8 +1,6 @@
 const cheerio = require("cheerio");
 const axios = require("axios");
-const express = require("express");
 
-const app = express();
 module.exports.GuildInfo = function GuildInfo(website, result) {
   try {
     axios(website, {

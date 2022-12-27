@@ -3,7 +3,6 @@ const { PlayerInfo } = require("./player-info");
 const { GuildInfo } = require("./guild-info");
 const { createSetImg } = require("./create-set-img");
 const app = express();
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const router = express.Router();
 let coords = [];
 app.use(router);
@@ -23,7 +22,6 @@ router.get(`/player/:name/:char/:item`, async function (req, res) {
   const website = `https://www.realmeye.com/player/${player}`;
   coords = [];
   await createSetImg(coords, website, char, res, item);
-  await delay(200);
 });
 
 router.get(`/guild/:guild`, function (req, res) {

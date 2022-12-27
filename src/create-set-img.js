@@ -1,9 +1,8 @@
 const cheerio = require("cheerio");
 const axios = require("axios");
 const sharp = require("sharp");
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 // creates image sets
-let originalImage = "./src/resources/In/renders.png";
+let originalImage = "./src/resources/renders.png";
 
 module.exports.createSetImg = async function createSetImg(
   Coords,
@@ -50,58 +49,72 @@ module.exports.createSetImg = async function createSetImg(
     });
   });
 
-  if(Coords.length == 0) return res.json({ error: "Not Found" })
+  if (Coords.length == 0) return res.json({ error: "Not Found" });
 
   try {
-    sharp(originalImage)
-      .extract({
-        left: Coords[0].Coordinates[0],
-        top: Coords[0].Coordinates[1],
-        width: 46,
-        height: 46,
-      })
-      .toFile("./src/resources/Items/weapon.png", function (err) {
-        if (err) return console.log(err);
-      });
-    sharp(originalImage)
-      .extract({
-        left: Coords[1].Coordinates[0],
-        top: Coords[1].Coordinates[1],
-        width: 46,
-        height: 46,
-      })
-      .toFile("./src/resources/Items/ability.png", function (err) {
-        if (err) return console.log(err);
-      });
-    sharp(originalImage)
-      .extract({
-        left: Coords[2].Coordinates[0],
-        top: Coords[2].Coordinates[1],
-        width: 46,
-        height: 46,
-      })
-      .toFile("./src/resources/Items/armor.png", function (err) {
-        if (err) return console.log(err);
-      });
-    sharp(originalImage)
-      .extract({
-        left: Coords[3].Coordinates[0],
-        top: Coords[3].Coordinates[1],
-        width: 46,
-        height: 46,
-      })
-      .toFile("./src/resources/Items/ring.png", function (err) {
-        if (err) return console.log(err);
-      });
-
-    await delay(500);
-    
+    switch (item.toLowerCase()) {
+      case "weapon":
+        sharp(originalImage)
+          .extract({
+            left: Coords[0].Coordinates[0],
+            top: Coords[0].Coordinates[1],
+            width: 46,
+            height: 46,
+          })
+          .toBuffer()
+          .then((data) => {
+            res.end(data);
+          })
+          .catch(() => res.json({ error: "Not Found" }));
+        break;
+      case "ability":
+        sharp(originalImage)
+          .extract({
+            left: Coords[1].Coordinates[0],
+            top: Coords[1].Coordinates[1],
+            width: 46,
+            height: 46,
+          })
+          .toBuffer()
+          .then((data) => {
+            res.end(data);
+          })
+          .catch(() => res.json({ error: "Not Found" }));
+        break;
+      case "armor":
+      case "armour":
+        sharp(originalImage)
+          .extract({
+            left: Coords[2].Coordinates[0],
+            top: Coords[2].Coordinates[1],
+            width: 46,
+            height: 46,
+          })
+          .toBuffer()
+          .then((data) => {
+            res.end(data);
+          })
+          .catch(() => res.json({ error: "Not Found" }));
+        break;
+      case "ring":
+        sharp(originalImage)
+          .extract({
+            left: Coords[3].Coordinates[0],
+            top: Coords[3].Coordinates[1],
+            width: 46,
+            height: 46,
+          })
+          .toBuffer()
+          .then((data) => {
+            res.end(data);
+          })
+          .catch(() => res.json({ error: "Not Found" }));
+        break;
+      default:
+        res.json({ error: "Not Found" });
+        break;
+    }
   } catch (err) {
     console.log(err);
-  }
-  try{
-  return res.sendFile(__dirname + `/resources/Items/${item}.png`);
-  } catch {
-    res.json({ error: "Not Found" })
   }
 };
