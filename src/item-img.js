@@ -4,7 +4,7 @@ const sharp = require("sharp");
 // creates image sets
 let originalImage = "./src/resources/renders.png";
 
-module.exports.createSetImg = async function createSetImg(
+module.exports.itemImg = async function itemImg(
   Coords,
   website,
   char,
@@ -61,6 +61,7 @@ module.exports.createSetImg = async function createSetImg(
             width: 46,
             height: 46,
           })
+          .png()
           .toBuffer()
           .then((data) => {
             res.end(data);
@@ -75,6 +76,7 @@ module.exports.createSetImg = async function createSetImg(
             width: 46,
             height: 46,
           })
+          .png()
           .toBuffer()
           .then((data) => {
             res.end(data);
@@ -90,6 +92,7 @@ module.exports.createSetImg = async function createSetImg(
             width: 46,
             height: 46,
           })
+          .png()
           .toBuffer()
           .then((data) => {
             res.end(data);
@@ -104,6 +107,7 @@ module.exports.createSetImg = async function createSetImg(
             width: 46,
             height: 46,
           })
+          .png()
           .toBuffer()
           .then((data) => {
             res.end(data);
