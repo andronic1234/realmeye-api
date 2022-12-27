@@ -32,7 +32,6 @@ module.exports.itemImg = async function itemImg(
               .find(".item-wrapper", data)
               .each(function () {
                 let empty = $(this).find(".item").attr("title");
-                console.log(empty);
                 if (empty == "Empty slot") {
                   Coords.push({
                     Coordinates: [0, 322],
