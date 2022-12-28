@@ -17,10 +17,10 @@ router.get(`/player/:name`, function(req, res) {
   let result = res;
   PlayerInfo(website, result, coords);
 });
-router.get(`/player/:name/:char/:item?`, async function(req, res) {
+router.get(`/player/:name/:char/:item`, async function(req, res) {
   const player = req.params.name;
   const char = req.params.char;
-  const item = req.params.item.toLowerCase();
+  const item = req.params.item;
   const website = `https://www.realmeye.com/player/${player}`;
   coords = [];
   await itemImg(coords, website, char, res, item);

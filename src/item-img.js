@@ -1,6 +1,7 @@
 const cheerio = require("cheerio");
 const axios = require("axios");
 const sharp = require("sharp");
+
 // creates image sets
 let originalImage = "./src/resources/renders.png";
 
@@ -34,12 +35,12 @@ module.exports.itemImg = async function itemImg(
                 let empty = $(this).find(".item").attr("title");
                 if (empty == "Empty slot") {
                   Coords.push({
-                    Coordinates: [0, 322],
+                    Coordinates: [0, 0],
                   });
                 } else {
                   let item = $(this)
                     .find(".item")
-                    .attr("style")
+                    .css("background-position")
                     .replace(/\D/g, " ")
                     .replace(/  +/g, " ")
                     .slice(1, -1);
@@ -101,7 +102,7 @@ module.exports.itemImg = async function itemImg(
           .then((data) => {
             res.end(data);
           })
-          .catch(() => res.json({ error: "Not Found" }));
+          .catch((err) => res.json({ error: "Not Found" }));
         break;
       case "ring":
         sharp(originalImage)
