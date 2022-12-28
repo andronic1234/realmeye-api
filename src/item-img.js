@@ -41,12 +41,9 @@ module.exports.itemImg = async function itemImg(
                   let item = $(this)
                     .find(".item")
                     .css("background-position")
-                    .replace(/\D/g, " ")
-                    .replace(/  +/g, " ")
-                    .slice(1, -1);
-                  var b = item.split(" ").map(function (item) {
-                    return parseInt(item, 10);
-                  });
+                    var b = item.split(" ").map(function (item) {
+                      return parseInt(item, 10)*-1;
+                    });
                   Coords.push({
                     Coordinates: b,
                   });
