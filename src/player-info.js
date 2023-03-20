@@ -152,7 +152,6 @@ module.exports.PlayerInfo = function PlayerInfo(website, result) {
         ProfileInfo: contentCache,
         CharacterInfo: CharacterList
       }
-      console.log(PlayerInfo)
       contentCache = {}
       return result.json(content);
     });
