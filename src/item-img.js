@@ -3,7 +3,8 @@ const axios = require("axios");
 const sharp = require("sharp");
 
 // creates image sets
-let originalImage = "./src/resources/renders.png";
+let originalImage;
+let imgUrl = 'https://www.realmeye.com/s/bb/css/renders.png'
 
 module.exports.itemImg = async function itemImg(
   Coords,
@@ -12,6 +13,17 @@ module.exports.itemImg = async function itemImg(
   res,
   item
 ) {
+  await axios
+  .get(imgUrl, {
+    responseType: 'arraybuffer',
+  })
+  .then(response => {
+    originalImage = Buffer.from(response.data, 'base64');
+  })
+  .catch(ex => {
+    console.error(ex);
+  });
+
   await axios(website, {
     headers: {
       "User-Agent":

@@ -21,11 +21,6 @@ module.exports.PlayerInfo = function PlayerInfo(website, result) {
       let CharacterList = [];
 
       const num = $(".active").find("a").text();
-      if (!num) {
-        return result.json({ error: "Not Found" });
-      } else if (num == "Characters (0)") {
-        return result.json({ error: "Data Unavailable" });
-      }
       let PlayerName = $(".entity-name", data).text();
       let filter = true;
       $(".summary tbody tr", data).each(function () {
@@ -33,13 +28,8 @@ module.exports.PlayerInfo = function PlayerInfo(website, result) {
           .find("td", data)
           .each(function () {
             const value = $(this).text();
+            PlayerInfo.push(value);
 
-            if (filter == true) {
-              filter = false;
-            } else {
-              filter = true;
-              PlayerInfo.push(value);
-            }
           });
       });
 
@@ -82,16 +72,88 @@ module.exports.PlayerInfo = function PlayerInfo(website, result) {
         items = [];
         characters = [];
       });
-      content.push({
-        Player: PlayerName,
-        Characters: PlayerInfo[0],
-        Skins: PlayerInfo[1],
-        Exaltations: PlayerInfo[2],
-        Fame: PlayerInfo[3],
-        Rank: PlayerInfo[4],
-        AccountFame: PlayerInfo[5],
-        CharacterList: CharacterList,
-      });
+      content = {...content, PlayerName: PlayerName}
+      for (let i = 0; i < PlayerInfo.length; i++) {
+        let infoType = PlayerInfo[i];
+        let obj;
+        switch (infoType) {
+          case "Characters":
+            obj = {
+              Characters: PlayerInfo[i + 1],
+            };
+            content = {...content, ...obj}
+            break;
+          case "Skins":
+            obj = {
+              Skins: PlayerInfo[i + 1],
+            };
+            content = {...content, ...obj}
+            break;
+          case "Exaltations":
+            obj = {
+              Exaltations: PlayerInfo[i + 1],
+            };
+            content = {...content, ...obj}
+            break;
+          case "Fame":
+            obj = {
+              Fame: PlayerInfo[i + 1],
+            };
+            content = {...content, ...obj}
+            break;
+          case "Rank":
+            obj = {
+              Rank: PlayerInfo[i + 1],
+            };
+            content = {...content, ...obj}
+            break;
+          case "Account fame":
+            obj = {
+              AccountFame: PlayerInfo[i + 1],
+            };
+            content = {...content, ...obj}
+            break;
+          case "Guild":
+            obj = {
+              Guild: PlayerInfo[i + 1],
+            };
+            content = {...content, ...obj}
+            break;
+          case "Guild Rank":
+            obj = {
+              GuildRank: PlayerInfo[i + 1],
+            };
+            content = {...content, ...obj}
+            break;
+          case "Created":
+            obj = {
+              Created: PlayerInfo[i + 1],
+            };
+            content = {...content, ...obj}
+            break;
+          case "First seen":
+            obj = {
+              FirstSeen: PlayerInfo[i + 1],
+            };
+            content = {...content, ...obj}
+            break;
+          case "Last seen":
+            obj = {
+              LastSeen: PlayerInfo[i + 1],
+            };
+            content = {...content, ...obj}
+            break;
+          default:
+            break;
+        }
+      }
+      let contentCache = {...content}
+      content= {
+        ProfileInfo: contentCache,
+        CharacterInfo: CharacterList
+      }
+      console.log(PlayerInfo)
+      contentCache = {}
       return result.json(content);
     });
   } catch (error) {
