@@ -27,6 +27,12 @@ https://realmeye-api.glitch.me/player/<b>[Player_Name]</b>
 
 <br>
 
+#### You can get character skin images using the following parameters:
+
+https://realmeye-api.glitch.me/player/<b>[Player_Name]</b>/<b>[Character]</b>
+
+<br>
+
 #### You can also get item images using the following parameters:
 
 https://realmeye-api.glitch.me/player/<b>[Player_Name]</b>/<b>[Character]</b>/<b>[Item]</b>*

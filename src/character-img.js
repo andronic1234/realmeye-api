@@ -36,7 +36,6 @@ module.exports.characterImg = async function characterImg(website, char, res) {
     });
   });
   if (attributes.length == 0) return res.json({ error: "Not Found" });
-  console.log(attributes);
   sharp(originalImage)
     .extract({
       left: attributes[0].attribs[0],
