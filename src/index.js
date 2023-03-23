@@ -3,6 +3,7 @@ const { PlayerInfo } = require("./player-info");
 const { GuildInfo } = require("./guild-info");
 const { itemImg } = require("./item-img");
 const { FetchImg } = require("./fetch-img");
+const { characterImg } = require("./character-img");
 const app = express();
 const router = express.Router();
 let coords = [];
@@ -18,6 +19,12 @@ router.get(`/player/:name`, function (req, res) {
   const website = `https://www.realmeye.com/player/${player}`;
   let result = res;
   PlayerInfo(website, result, coords);
+});
+router.get(`/player/:name/:char`, async function (req, res) {
+  const player = req.params.name;
+  const char = req.params.char;
+  const website = `https://www.realmeye.com/player/${player}`;
+  await characterImg(website, char, res);
 });
 router.get(`/player/:name/:char/:item`, async function (req, res) {
   const player = req.params.name;
