@@ -39,9 +39,9 @@ module.exports.characterImg = async function characterImg(website, char, res) {
   sharp(originalImage)
     .extract({
       left: attributes[0].attribs[0],
-      top: attributes[0].attribs[1] -250,
-      width: 46,
-      height: 46,
+      top: attributes[0].attribs[1] - 250,
+      width: 50,
+      height: 50,
     })
     .toBuffer()
     .then((data) => {
