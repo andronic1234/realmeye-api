@@ -1,6 +1,7 @@
 const fs = require("fs");
 const schedule = require("node-schedule");
 const axios = require("axios");
+const { characterDyeData } = require("./character-dyeData");
 
 let ItemImgUrl = "https://www.realmeye.com/s/bb/css/renders.png";
 let CharacterImgUrl = "https://www.realmeye.com/s/fj/img/sheets.png";
@@ -34,5 +35,17 @@ module.exports.FetchImg = function FetchImg() {
       .catch((ex) => {
         console.error(ex);
       });
+
+    let dyeData = await characterDyeData();
+    fs.writeFile(
+      __dirname + "/resources/dyeData.js",
+      dyeData[0],
+      "utf8",
+      function readFileCallback(err, data) {
+        if (err) {
+          console.log(err);
+        }
+      }
+    );
   });
 };
