@@ -2,12 +2,9 @@ const cheerio = require("cheerio");
 const axios = require("axios");
 const sharp = require("sharp");
 const fs = require("fs");
-let dyeData = require("./dyeData");
-let GetDyeData = dyeData.dyeData;
 
 module.exports.characterImg = async function characterImg(website, char, res) {
   const attributes = [];
-
   let originalImage = __dirname + "/resources/sheets.png";
   await axios(website, {
     headers: {
@@ -26,29 +23,12 @@ module.exports.characterImg = async function characterImg(website, char, res) {
         .each(function () {
           const value = $(this).find("td", data).text();
           if (value.toLowerCase().startsWith(char.toLowerCase())) {
-            const skinPosition = $(this)
+            const style = $(this)
               .find(".character", data)
               .css("background-position");
-            const skinAccessoryDye = $(this)
-              .find(".character", data)
-              .attr("data-accessory-dye-id");
-            const skinClothingDye = $(this)
-              .find(".character", data)
-              .attr("data-clothing-dye-id");
 
-            console.log(skinAccessoryDye);
-            let dyeArr = Object.entries(GetDyeData).filter(([key, value]) =>
-              value.includes(skinClothingDye)
-            )[0];
-            console.log(dyeArr);
-
-            // const skinAccessoryDyeHex =
-            // "#" + ("00000" + skinAccessoryDyes.toString(16)).slice(-6); //if dye
-            // console.log(skinAccessoryDyeHex);
-            // console.log(skinAccessoryDye);
-
-            var b = skinPosition.split(" ").map(function (skinPosition) {
-              return parseInt(skinPosition, 10) * -1;
+            var b = style.split(" ").map(function (style) {
+              return parseInt(style, 10) * -1;
             });
             attributes.push({ attribs: b });
           }
