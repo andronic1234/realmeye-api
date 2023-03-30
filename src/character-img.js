@@ -1,10 +1,8 @@
 const cheerio = require("cheerio");
 const axios = require("axios");
-// const sharp = require("sharp");
 const { createCanvas, loadImage } = require("canvas");
-// const fs = require("fs");
 const dyeData = require("./resources/dyeData");
-let GetDyeData = dyeData.dyeData
+let GetDyeData = dyeData.dyeData;
 let color = [];
 
 module.exports.characterImg = async function characterImg(website, char, res) {
@@ -69,14 +67,16 @@ module.exports.characterImg = async function characterImg(website, char, res) {
     skinCanvas: createCanvas(50, 50),
     dye1Canvas: createCanvas(50, 50),
     dye2Canvas: createCanvas(50, 50),
+    markDye1Canvas: createCanvas(50, 50),
+    markDye2Canvas: createCanvas(50, 50),
   };
   const contexts = {
     output: canvas.outputCanvas.getContext("2d"),
     skin: canvas.skinCanvas.getContext("2d"),
     dye1: canvas.dye1Canvas.getContext("2d"),
     dye2: canvas.dye2Canvas.getContext("2d"),
-    // markDye1: canvas.getContext("2d"),
-    // markDye2: canvas.getContext("2d"),
+    markDye1: canvas.markDye1Canvas.getContext("2d"),
+    markDye2: canvas.markDye2Canvas.getContext("2d"),
   };
   try {
     loadImage(originalImage).then((image) => {
@@ -91,44 +91,53 @@ module.exports.characterImg = async function characterImg(website, char, res) {
         50,
         50
       );
+      let dark = 0;
       contexts.output.drawImage(canvas.skinCanvas, 0, 0);
       if (typeof color[0] !== "undefined") {
         if (typeof color[0] === "string") {
-          contexts.dye1.fillStyle = color[0];
-          contexts.dye1.fillRect(0, 0, 50, 50);
-          contexts.dye1.globalCompositeOperation = "destination-in";
+          if (color[0] == "#000000") {
+            dark = -50;
+          }
+          drawCloth(contexts.dye1, color[0]);
+          // if (typeof color[0] === "object") {
+          //   drawCloth(contexts.markDye2, color[0]);
+          // }
+          contexts.dye1.drawImage(
+            image,
+            attributes[0].attribs[0],
+            attributes[0].attribs[1] - 200 - dark,
+            50,
+            50,
+            0,
+            0,
+            50,
+            50
+          );
+          contexts.output.drawImage(canvas.dye1Canvas, 0, 0);
         }
-        contexts.dye1.drawImage(
-          image,
-          attributes[0].attribs[0],
-          attributes[0].attribs[1] - 200,
-          50,
-          50,
-          0,
-          0,
-          50,
-          50
-        );
-        contexts.output.drawImage(canvas.dye1Canvas, 0, 0);
       }
       if (typeof color[1] !== "undefined") {
         if (typeof color[1] === "string") {
-          contexts.dye2.fillStyle = color[1];
-          contexts.dye2.fillRect(0, 0, 50, 50);
-          contexts.dye2.globalCompositeOperation = "destination-in";
+          if (color[1] == "#000000") {
+            dark = -50;
+          }
+          drawCloth(contexts.dye2, color[1]);
+          // if (typeof color[1] === "object") {
+          //   drawCloth(contexts.markDye2, color[1]);
+          // }
+          contexts.dye2.drawImage(
+            image,
+            attributes[0].attribs[0],
+            attributes[0].attribs[1] - 100 - dark,
+            50,
+            50,
+            0,
+            0,
+            50,
+            50
+          );
+          contexts.output.drawImage(canvas.dye2Canvas, 0, 0);
         }
-        contexts.dye2.drawImage(
-          image,
-          attributes[0].attribs[0],
-          attributes[0].attribs[1] - 100,
-          50,
-          50,
-          0,
-          0,
-          50,
-          50
-        );
-        contexts.output.drawImage(canvas.dye2Canvas, 0, 0);
       }
       const buffer = canvas.outputCanvas.toBuffer("image/png");
       res.end(buffer);
@@ -139,8 +148,8 @@ module.exports.characterImg = async function characterImg(website, char, res) {
     console.log(err);
   }
 
-  function drawCloth(image, context, palette) {
-    if (typeof palette !== "string") {
+  function drawCloth(context, palette) {
+    if (typeof palette === "object") {
       // for (let col = 0; col < 5; col++) {
       //   for (let row = 0; row < 5; row++) {
       //     context.drawImage(image, palette[0][2], image.height - 40, palette[0][0], palette[0][1], row * palette[0][0], col * palette[0][1], palette[0][0], palette[0][1]);
@@ -149,6 +158,7 @@ module.exports.characterImg = async function characterImg(website, char, res) {
     } else {
       context.fillStyle = palette;
       context.fillRect(0, 0, 50, 50);
+      context.globalCompositeOperation = "destination-in";
     }
   }
 };

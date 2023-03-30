@@ -29,6 +29,5 @@ module.exports.characterDyeData = async function characterDyeData() {
       }
     );
   });
-  // console.log(dataFound);
   return dataFound;
 };
