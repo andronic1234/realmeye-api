@@ -58,7 +58,9 @@ https://realmeye-api.glitch.me/player/<b>[Player_Name]</b>/<b>[Character]</b>/<b
 
 - [axios](https://www.npmjs.com/package/axios)
 
-- [sharp](https://www.npmjs.com/package/sharp)
+- [canvas](https://www.npmjs.com/package/canvas)
+
+- [node-schedule](https://www.npmjs.com/package/node-schedule)
 
 <br>
 

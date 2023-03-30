@@ -1,6 +1,6 @@
 const cheerio = require("cheerio");
 const axios = require("axios");
-const sharp = require("sharp");
+const { createCanvas, loadImage } = require("canvas");
 
 // creates image sets
 let originalImage = __dirname + "/resources/renders.png";
@@ -55,63 +55,93 @@ module.exports.itemImg = async function itemImg(
   if (Coords.length == 0) return res.json({ error: "Not Found" });
 
   try {
+    const canvas = createCanvas(46,46);
+    const context = canvas.getContext("2d");
     switch (item.toLowerCase()) {
       case "weapon":
-        sharp(originalImage)
-          .extract({
-            left: Coords[0].Coordinates[0],
-            top: Coords[0].Coordinates[1],
-            width: 46,
-            height: 46,
-          })
-          .toBuffer()
-          .then((data) => {
-            res.end(data);
-          })
-          .catch(() => res.json({ error: "Not Found" }));
+        try {
+          loadImage(originalImage).then((image) => {
+            context.drawImage(
+              image,
+              Coords[0].Coordinates[0],
+              Coords[0].Coordinates[1],
+              46,
+              46,
+              0,
+              0,
+              46,
+              46
+            );
+            const buffer = canvas.toBuffer("image/png");
+            res.end(buffer);
+          });
+        } catch {
+          res.json({ error: "Not Found" });
+        }
         break;
       case "ability":
-        sharp(originalImage)
-          .extract({
-            left: Coords[1].Coordinates[0],
-            top: Coords[1].Coordinates[1],
-            width: 46,
-            height: 46,
-          })
-          .toBuffer()
-          .then((data) => {
-            res.end(data);
-          })
-          .catch(() => res.json({ error: "Not Found" }));
+        try {
+          loadImage(originalImage).then((image) => {
+            context.drawImage(
+              image,
+              Coords[1].Coordinates[0],
+              Coords[1].Coordinates[1],
+              46,
+              46,
+              0,
+              0,
+              46,
+              46
+            );
+            const buffer = canvas.toBuffer("image/png");
+            res.end(buffer);
+          });
+        } catch {
+          res.json({ error: "Not Found" });
+        }
         break;
       case "armor":
       case "armour":
-        sharp(originalImage)
-          .extract({
-            left: Coords[2].Coordinates[0],
-            top: Coords[2].Coordinates[1],
-            width: 46,
-            height: 46,
-          })
-          .toBuffer()
-          .then((data) => {
-            res.end(data);
-          })
-          .catch((err) => res.json({ error: "Not Found" }));
+        try {
+          loadImage(originalImage).then((image) => {
+            context.drawImage(
+              image,
+              Coords[2].Coordinates[0],
+              Coords[2].Coordinates[1],
+              46,
+              46,
+              0,
+              0,
+              46,
+              46
+            );
+            const buffer = canvas.toBuffer("image/png");
+            res.end(buffer);
+          });
+        } catch {
+          res.json({ error: "Not Found" });
+        }
         break;
       case "ring":
-        sharp(originalImage)
-          .extract({
-            left: Coords[3].Coordinates[0],
-            top: Coords[3].Coordinates[1],
-            width: 46,
-            height: 46,
-          })
-          .toBuffer()
-          .then((data) => {
-            res.end(data);
-          })
-          .catch(() => res.json({ error: "Not Found" }));
+        try {
+          loadImage(originalImage).then((image) => {
+            context.drawImage(
+              image,
+              Coords[3].Coordinates[0],
+              Coords[3].Coordinates[1],
+              46,
+              46,
+              0,
+              0,
+              46,
+              46
+            );
+            const buffer = canvas.toBuffer("image/png");
+            res.end(buffer);
+          });
+        } catch {
+          res.json({ error: "Not Found" });
+        }
         break;
       default:
         res.json({ error: "Not Found" });
