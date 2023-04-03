@@ -154,7 +154,7 @@ module.exports.PlayerInfo = function PlayerInfo(website, result) {
         CharacterInfo: CharacterList
       }
       contentCache = {}
-      return result.json(content);
+      return result.status(200).json(content);
     });
   } catch (error) {
     console.log(error);

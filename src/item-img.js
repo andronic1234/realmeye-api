@@ -52,7 +52,7 @@ module.exports.itemImg = async function itemImg(
     });
   });
 
-  if (Coords.length == 0) return res.json({ error: "Not Found" });
+  if (Coords.length == 0) return res.status(404).json({ error: "Not Found" });
 
   try {
     const canvas = createCanvas(46,46);
@@ -73,10 +73,10 @@ module.exports.itemImg = async function itemImg(
               46
             );
             const buffer = canvas.toBuffer("image/png");
-            res.end(buffer);
+            res.status(200).end(buffer);
           });
         } catch {
-          res.json({ error: "Not Found" });
+          res.status(404).json({ error: "Not Found" });
         }
         break;
       case "ability":
@@ -94,10 +94,10 @@ module.exports.itemImg = async function itemImg(
               46
             );
             const buffer = canvas.toBuffer("image/png");
-            res.end(buffer);
+            res.status(200).end(buffer);
           });
         } catch {
-          res.json({ error: "Not Found" });
+          res.status(404).json({ error: "Not Found" });
         }
         break;
       case "armor":
@@ -116,10 +116,10 @@ module.exports.itemImg = async function itemImg(
               46
             );
             const buffer = canvas.toBuffer("image/png");
-            res.end(buffer);
+            res.status(200).end(buffer);
           });
         } catch {
-          res.json({ error: "Not Found" });
+          res.status(404).json({ error: "Not Found" });
         }
         break;
       case "ring":
@@ -137,14 +137,14 @@ module.exports.itemImg = async function itemImg(
               46
             );
             const buffer = canvas.toBuffer("image/png");
-            res.end(buffer);
+            res.status(200).end(buffer);
           });
         } catch {
-          res.json({ error: "Not Found" });
+          res.status(404).json({ error: "Not Found" });
         }
         break;
       default:
-        res.json({ error: "Not Found" });
+        res.status(404).json({ error: "Not Found" });
         break;
     }
   } catch (err) {

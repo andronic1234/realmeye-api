@@ -21,7 +21,7 @@ module.exports.GuildInfo = function GuildInfo(website, result) {
 
       let guild = $(".entity-name", data).text();
       if (!guild) {
-        return result.json({ error: "Not Found" });
+        return result.status(404).json({ error: "Not Found" });
       }
       let filter = true;
       $(".summary tbody tr", data).each(function () {
@@ -66,7 +66,7 @@ module.exports.GuildInfo = function GuildInfo(website, result) {
         MostActiveOn: guildInfo[3],
         GuildMemberData: members,
       });
-      return result.json(content);
+      return result.status(200).json(content);
     });
   } catch (error) {
     console.log(error);

@@ -61,7 +61,8 @@ module.exports.characterImg = async function characterImg(website, char, res) {
         });
     });
   });
-  if (attributes.length == 0) return res.json({ error: "Not Found" });
+  if (attributes.length == 0)
+    return res.status(404).json({ error: "Not Found" });
   const canvas = {
     outputCanvas: createCanvas(50, 50),
     skinCanvas: createCanvas(50, 50),
@@ -91,70 +92,84 @@ module.exports.characterImg = async function characterImg(website, char, res) {
         50,
         50
       );
-      let dark = 0;
+      let dark = -50;
       contexts.output.drawImage(canvas.skinCanvas, 0, 0);
       if (typeof color[0] !== "undefined") {
         if (typeof color[0] === "string") {
-          if (color[0] == "#000000") {
-            dark = -50;
+          if (color[0] !== "#000000") {
+            dark = 0;
           }
           drawCloth(contexts.dye1, color[0]);
-          // if (typeof color[0] === "object") {
-          //   drawCloth(contexts.markDye2, color[0]);
-          // }
-          contexts.dye1.drawImage(
-            image,
-            attributes[0].attribs[0],
-            attributes[0].attribs[1] - 200 - dark,
-            50,
-            50,
-            0,
-            0,
-            50,
-            50
-          );
-          contexts.output.drawImage(canvas.dye1Canvas, 0, 0);
         }
+        contexts.dye1.drawImage(
+          image,
+          attributes[0].attribs[0],
+          attributes[0].attribs[1] - 200 - dark,
+          50,
+          50,
+          0,
+          0,
+          50,
+          50
+        );
+        if (typeof color[0] === "object") {
+          drawCloth(contexts.markDye1, color[0], image);
+          contexts.dye1.globalCompositeOperation = "source-in";
+          contexts.dye1.drawImage(canvas.markDye1Canvas, 0, 0);
+        }
+        contexts.output.drawImage(canvas.dye1Canvas, 0, 0);
       }
       if (typeof color[1] !== "undefined") {
         if (typeof color[1] === "string") {
-          if (color[1] == "#000000") {
-            dark = -50;
+          if (color[1] !== "#000000") {
+            dark = 0;
           }
           drawCloth(contexts.dye2, color[1]);
-          // if (typeof color[1] === "object") {
-          //   drawCloth(contexts.markDye2, color[1]);
-          // }
-          contexts.dye2.drawImage(
-            image,
-            attributes[0].attribs[0],
-            attributes[0].attribs[1] - 100 - dark,
-            50,
-            50,
-            0,
-            0,
-            50,
-            50
-          );
-          contexts.output.drawImage(canvas.dye2Canvas, 0, 0);
         }
+        contexts.dye2.drawImage(
+          image,
+          attributes[0].attribs[0],
+          attributes[0].attribs[1] - 100 - dark,
+          50,
+          50,
+          0,
+          0,
+          50,
+          50
+        );
+        if (typeof color[1] === "object") {
+          drawCloth(contexts.markDye2, color[1], image);
+          contexts.dye2.globalCompositeOperation = "source-in";
+          contexts.dye2.drawImage(canvas.markDye2Canvas, 0, 0);
+        }
+        contexts.output.drawImage(canvas.dye2Canvas, 0, 0);
       }
       const buffer = canvas.outputCanvas.toBuffer("image/png");
-      res.end(buffer);
+      res.status(200).end(buffer);
       color = [];
     });
   } catch (err) {
-    res.json({ error: "Not Found" });
+    res.status(404).json({ error: "Could not get image" });
     console.log(err);
   }
 
-  function drawCloth(context, palette) {
+  function drawCloth(context, palette, image) {
     if (typeof palette === "object") {
-      // for (let col = 0; col < 5; col++) {
-      //   for (let row = 0; row < 5; row++) {
-      //     context.drawImage(image, palette[0][2], image.height - 40, palette[0][0], palette[0][1], row * palette[0][0], col * palette[0][1], palette[0][0], palette[0][1]);
-      //   }
-      // }
+      for (let col = 0; col < 6; col++) {
+        for (let row = 0; row < 6; row++) {
+          context.drawImage(
+            image,
+            palette[2],
+            image.height - 48,
+            palette[0],
+            palette[1],
+            row * palette[0],
+            col * palette[1],
+            palette[0],
+            palette[1]
+          );
+        }
+      }
     } else {
       context.fillStyle = palette;
       context.fillRect(0, 0, 50, 50);
