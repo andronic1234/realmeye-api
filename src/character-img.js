@@ -163,8 +163,8 @@ module.exports.characterImg = async function characterImg(website, char, res) {
             image.height - 48,
             palette[0],
             palette[1],
-            row * palette[0],
-            col * palette[1],
+            row * palette[0]-4,
+            col * palette[1]+5,
             palette[0],
             palette[1]
           );
