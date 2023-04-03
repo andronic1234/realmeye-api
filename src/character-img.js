@@ -155,8 +155,8 @@ module.exports.characterImg = async function characterImg(website, char, res) {
 
   function drawCloth(context, palette, image) {
     if (typeof palette === "object") {
-      for (let col = 0; col < 6; col++) {
-        for (let row = 0; row < 6; row++) {
+      for (let col = 0; col < 10; col++) {
+        for (let row = 0; row < 10; row++) {
           context.drawImage(
             image,
             palette[2],
