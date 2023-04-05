@@ -54,6 +54,8 @@ https://realmeye-api.glitch.me/player/<b>[Player_Name]</b>/<b>[Character]</b>/<b
 
 - [express](https://www.npmjs.com/package/express)
 
+- [express-rate-limit](https://www.npmjs.com/package/express-rate-limit)
+
 - [cheerio](https://www.npmjs.com/package/cheerio)
 
 - [axios](https://www.npmjs.com/package/axios)
