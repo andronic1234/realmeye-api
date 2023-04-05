@@ -1,9 +1,10 @@
 const cheerio = require("cheerio");
 const axios = require("axios");
+const path = require("path");
 const { createCanvas, loadImage } = require("canvas");
 
 // creates image sets
-let originalImage = __dirname + "/resources/renders.png";
+let originalImage = path.join(__dirname, "../../resources/renders.png");
 
 module.exports.itemImg = async function itemImg(
   Coords,
@@ -19,43 +20,49 @@ module.exports.itemImg = async function itemImg(
       Accept:
         "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
     },
-  }).then(async (res) => {
-    const data = res.data;
-    const $ = cheerio.load(data);
+  })
+    .then(async (res) => {
+      const data = res.data;
+      const $ = cheerio.load(data);
 
-    $(".table-responsive table tbody", data).each(function () {
-      $(this)
-        .find("tr", data)
-        .each(function () {
-          const value = $(this).find("td", data).text();
-          if (value.toLowerCase().startsWith(char.toLowerCase())) {
-            $(this)
-              .find(".item-wrapper", data)
-              .each(function () {
-                let empty = $(this).find(".item").attr("title");
-                if (empty == "Empty slot") {
-                  Coords.push({
-                    Coordinates: [0, 0],
-                  });
-                } else {
-                  let item = $(this).find(".item").css("background-position");
-                  var b = item.split(" ").map(function (item) {
-                    return parseInt(item, 10) * -1;
-                  });
-                  Coords.push({
-                    Coordinates: b,
-                  });
-                }
-              });
-          }
-        });
+      $(".table-responsive table tbody", data).each(function () {
+        $(this)
+          .find("tr", data)
+          .each(function () {
+            const value = $(this).find("td", data).text();
+            if (value.toLowerCase().startsWith(char.toLowerCase())) {
+              $(this)
+                .find(".item-wrapper", data)
+                .each(function () {
+                  let empty = $(this).find(".item").attr("title");
+                  if (empty == "Empty slot") {
+                    Coords.push({
+                      Coordinates: [0, 0],
+                    });
+                  } else {
+                    let item = $(this).find(".item").css("background-position");
+                    var b = item.split(" ").map(function (item) {
+                      return parseInt(item, 10) * -1;
+                    });
+                    Coords.push({
+                      Coordinates: b,
+                    });
+                  }
+                });
+            }
+          });
+      });
+    })
+    .catch(function (err) {
+      if (err.response.status === 429) {
+        return res.status(429).json({ error: "Too many requests" });
+      }
     });
-  });
 
   if (Coords.length == 0) return res.status(404).json({ error: "Not Found" });
 
   try {
-    const canvas = createCanvas(46,46);
+    const canvas = createCanvas(46, 46);
     const context = canvas.getContext("2d");
     switch (item.toLowerCase()) {
       case "weapon":

@@ -1,6 +1,7 @@
 const cheerio = require("cheerio");
 const axios = require("axios");
-const fs = require('fs')
+const fs = require("fs");
+const path = require("path");
 const sheetOffsets = "https://www.realmeye.com/s/fj/js/sheet.js";
 
 module.exports.characterDyeData = async function characterDyeData() {
@@ -16,10 +17,11 @@ module.exports.characterDyeData = async function characterDyeData() {
     const data = res.data;
     const $ = cheerio.load(data);
     dataFound.push(
-      data.slice(data.indexOf("sheetOffsets")) + "exports.dyeData = sheetOffsets"
+      data.slice(data.indexOf("sheetOffsets")) +
+        "exports.dyeData = sheetOffsets"
     );
     fs.writeFile(
-      __dirname + "/resources/dyeData.js",
+      path.join(__dirname, "../resources/dyeData.js"),
       dataFound[0],
       "utf8",
       function readFileCallback(err, data) {

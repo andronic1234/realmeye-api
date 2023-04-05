@@ -1,13 +1,15 @@
 const cheerio = require("cheerio");
+const path = require("path");
 const axios = require("axios");
 const { createCanvas, loadImage } = require("canvas");
-const dyeData = require("./resources/dyeData");
+const dyeData = require("../../resources/dyeData");
 let GetDyeData = dyeData.dyeData;
 let color = [];
 
 module.exports.characterImg = async function characterImg(website, char, res) {
   const attributes = [];
-  let originalImage = __dirname + "/resources/sheets.png";
+  let originalImage = path.join(__dirname, "../../resources/sheets.png");
+
   await axios(website, {
     headers: {
       "User-Agent":
@@ -15,52 +17,58 @@ module.exports.characterImg = async function characterImg(website, char, res) {
       Accept:
         "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
     },
-  }).then(async (res) => {
-    const data = res.data;
-    const $ = cheerio.load(data);
+  })
+    .then(async (res) => {
+      const data = res.data;
+      const $ = cheerio.load(data);
 
-    $(".table-responsive table tbody", data).each(function () {
-      $(this)
-        .find("tr", data)
-        .each(function () {
-          const value = $(this).find("td", data).text();
-          if (value.toLowerCase().startsWith(char.toLowerCase())) {
-            const skinPosition = $(this)
-              .find(".character", data)
-              .css("background-position");
-            const skinAccessoryDye = $(this)
-              .find(".character", data)
-              .attr("data-accessory-dye-id");
-            const skinClothingDye = $(this)
-              .find(".character", data)
-              .attr("data-clothing-dye-id");
-            var b = skinPosition.split(" ").map(function (skinPosition) {
-              return parseInt(skinPosition, 10) * -1;
-            });
-            attributes.push({ attribs: b });
+      $(".table-responsive table tbody", data).each(function () {
+        $(this)
+          .find("tr", data)
+          .each(function () {
+            const value = $(this).find("td", data).text();
+            if (value.toLowerCase().startsWith(char.toLowerCase())) {
+              const skinPosition = $(this)
+                .find(".character", data)
+                .css("background-position");
+              const skinAccessoryDye = $(this)
+                .find(".character", data)
+                .attr("data-accessory-dye-id");
+              const skinClothingDye = $(this)
+                .find(".character", data)
+                .attr("data-clothing-dye-id");
+              var b = skinPosition.split(" ").map(function (skinPosition) {
+                return parseInt(skinPosition, 10) * -1;
+              });
+              attributes.push({ attribs: b });
 
-            for (let i = 0; i < 2; i++) {
-              let data_dye = parseInt(
-                i > 0 ? skinAccessoryDye : skinClothingDye
-              );
-              let dyeArr = Object.entries(GetDyeData).filter(([key, value]) =>
-                value.includes(data_dye)
-              )[0];
+              for (let i = 0; i < 2; i++) {
+                let data_dye = parseInt(
+                  i > 0 ? skinAccessoryDye : skinClothingDye
+                );
+                let dyeArr = Object.entries(GetDyeData).filter(([key, value]) =>
+                  value.includes(data_dye)
+                )[0];
 
-              const key = +dyeArr[0];
-              const value = dyeArr[1];
+                const key = +dyeArr[0];
+                const value = dyeArr[1];
 
-              if (value.slice(0, 3).join("") === "000") {
-                if (data_dye == 0) return;
-                color.push("#" + ("00000" + key.toString(16)).slice(-6));
-              } else {
-                color.push(value);
+                if (value.slice(0, 3).join("") === "000") {
+                  if (data_dye == 0) return;
+                  color.push("#" + ("00000" + key.toString(16)).slice(-6));
+                } else {
+                  color.push(value);
+                }
               }
             }
-          }
-        });
+          });
+      });
+    })
+    .catch(function (err) {
+      if (err.response.status === 429) {
+        return res.status(429).json({ error: "Too many requests" });
+      }
     });
-  });
   if (attributes.length == 0)
     return res.status(404).json({ error: "Not Found" });
   const canvas = {
@@ -163,8 +171,8 @@ module.exports.characterImg = async function characterImg(website, char, res) {
             image.height - 48,
             palette[0],
             palette[1],
-            row * palette[0]-4,
-            col * palette[1]-4,
+            row * palette[0] - 4,
+            col * palette[1] - 4,
             palette[0],
             palette[1]
           );

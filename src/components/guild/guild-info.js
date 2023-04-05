@@ -2,15 +2,15 @@ const cheerio = require("cheerio");
 const axios = require("axios");
 
 module.exports.GuildInfo = function GuildInfo(website, result) {
-  try {
-    axios(website, {
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36",
-        Accept:
-          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-      },
-    }).then((res) => {
+  axios(website, {
+    headers: {
+      "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36",
+      Accept:
+        "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+    },
+  })
+    .then((res) => {
       const data = res.data;
       const $ = cheerio.load(data);
 
@@ -67,8 +67,14 @@ module.exports.GuildInfo = function GuildInfo(website, result) {
         GuildMemberData: members,
       });
       return result.status(200).json(content);
+    })
+    .catch(function (err) {
+      if (err.response.status === 429) {
+        try {
+          return result.status(429).json({ error: "Too many requests" });
+        } catch (err) {
+          console.log(err);
+        }
+      }
     });
-  } catch (error) {
-    console.log(error);
-  }
 };

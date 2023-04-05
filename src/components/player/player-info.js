@@ -2,15 +2,15 @@ const cheerio = require("cheerio");
 const axios = require("axios");
 
 module.exports.PlayerInfo = function PlayerInfo(website, result) {
-  try {
-    axios(website, {
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36",
-        Accept:
-          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-      },
-    }).then((res) => {
+  axios(website, {
+    headers: {
+      "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36",
+      Accept:
+        "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+    },
+  })
+    .then((res) => {
       const data = res.data;
       const $ = cheerio.load(data);
 
@@ -22,7 +22,7 @@ module.exports.PlayerInfo = function PlayerInfo(website, result) {
 
       const num = $(".active").find("a").text();
       let PlayerName = $(".entity-name", data).text();
-      if (PlayerName == "") return result.json({error: 'Not Found'})
+      if (PlayerName == "") return result.json({ error: "Not Found" });
       let filter = true;
       $(".summary tbody tr", data).each(function () {
         $(this)
@@ -30,7 +30,6 @@ module.exports.PlayerInfo = function PlayerInfo(website, result) {
           .each(function () {
             const value = $(this).text();
             PlayerInfo.push(value);
-
           });
       });
 
@@ -73,7 +72,7 @@ module.exports.PlayerInfo = function PlayerInfo(website, result) {
         items = [];
         characters = [];
       });
-      content = {...content, PlayerName: PlayerName}
+      content = { ...content, PlayerName: PlayerName };
       for (let i = 0; i < PlayerInfo.length; i++) {
         let infoType = PlayerInfo[i];
         let obj;
@@ -82,81 +81,83 @@ module.exports.PlayerInfo = function PlayerInfo(website, result) {
             obj = {
               Characters: PlayerInfo[i + 1],
             };
-            content = {...content, ...obj}
+            content = { ...content, ...obj };
             break;
           case "Skins":
             obj = {
               Skins: PlayerInfo[i + 1],
             };
-            content = {...content, ...obj}
+            content = { ...content, ...obj };
             break;
           case "Exaltations":
             obj = {
               Exaltations: PlayerInfo[i + 1],
             };
-            content = {...content, ...obj}
+            content = { ...content, ...obj };
             break;
           case "Fame":
             obj = {
               Fame: PlayerInfo[i + 1],
             };
-            content = {...content, ...obj}
+            content = { ...content, ...obj };
             break;
           case "Rank":
             obj = {
               Rank: PlayerInfo[i + 1],
             };
-            content = {...content, ...obj}
+            content = { ...content, ...obj };
             break;
           case "Account fame":
             obj = {
               AccountFame: PlayerInfo[i + 1],
             };
-            content = {...content, ...obj}
+            content = { ...content, ...obj };
             break;
           case "Guild":
             obj = {
               Guild: PlayerInfo[i + 1],
             };
-            content = {...content, ...obj}
+            content = { ...content, ...obj };
             break;
           case "Guild Rank":
             obj = {
               GuildRank: PlayerInfo[i + 1],
             };
-            content = {...content, ...obj}
+            content = { ...content, ...obj };
             break;
           case "Created":
             obj = {
               Created: PlayerInfo[i + 1],
             };
-            content = {...content, ...obj}
+            content = { ...content, ...obj };
             break;
           case "First seen":
             obj = {
               FirstSeen: PlayerInfo[i + 1],
             };
-            content = {...content, ...obj}
+            content = { ...content, ...obj };
             break;
           case "Last seen":
             obj = {
               LastSeen: PlayerInfo[i + 1],
             };
-            content = {...content, ...obj}
+            content = { ...content, ...obj };
             break;
           default:
             break;
         }
       }
-      let contentCache = {...content}
-      content= {
+      let contentCache = { ...content };
+      content = {
         ProfileInfo: contentCache,
-        CharacterInfo: CharacterList
-      }
-      contentCache = {}
+        CharacterInfo: CharacterList,
+      };
+      contentCache = {};
       return result.status(200).json(content);
+    })
+    .catch(function (err) {
+      if (err.response.status === 429) {
+        return result.status(429).json({ error: "Too many requests" });
+      }
     });
-  } catch (error) {
-    console.log(error);
-  }
 };
