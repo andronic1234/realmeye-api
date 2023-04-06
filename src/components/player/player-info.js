@@ -22,7 +22,8 @@ module.exports.PlayerInfo = function PlayerInfo(website, result) {
 
       const num = $(".active").find("a").text();
       let PlayerName = $(".entity-name", data).text();
-      if (PlayerName == "") return result.json({ error: "Not Found" });
+      if (PlayerName == "")
+        return result.status(404).json({ error: "Not Found" });
       let filter = true;
       $(".summary tbody tr", data).each(function () {
         $(this)
