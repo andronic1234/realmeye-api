@@ -21,7 +21,7 @@ module.exports.characterDyeData = async function characterDyeData() {
         "exports.dyeData = sheetOffsets"
     );
     fs.writeFile(
-      path.join(__dirname, "../resources/dyeData.js"),
+      path.join(__dirname, "../data/dyeData.js"),
       dataFound[0],
       "utf8",
       function readFileCallback(err, data) {

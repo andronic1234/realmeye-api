@@ -11,7 +11,6 @@ const limiter = rateLimit({
     });
   },
   keyGenerator: (req, res) => {
-    console.log(req.clientIp);
     return req.clientIp;
   },
 });

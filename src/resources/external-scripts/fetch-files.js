@@ -16,7 +16,7 @@ module.exports.fetchFiles = function fetchFiles() {
       .then((response) => {
         console.log(date);
         fs.writeFileSync(
-          path.join(__dirname, "../resources/renders.png"),
+          path.join(__dirname, "../renders.png"),
           response.data,
           {
             encoding: "base64",
@@ -33,13 +33,9 @@ module.exports.fetchFiles = function fetchFiles() {
       })
       .then((response) => {
         console.log(date);
-        fs.writeFileSync(
-          path.join(__dirname, "../resources/sheets.png"),
-          response.data,
-          {
-            encoding: "base64",
-          }
-        );
+        fs.writeFileSync(path.join(__dirname, "../sheets.png"), response.data, {
+          encoding: "base64",
+        });
       })
       .catch((ex) => {
         console.error(ex);
