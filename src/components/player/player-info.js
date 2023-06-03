@@ -162,7 +162,7 @@ module.exports.PlayerInfo = function PlayerInfo(website, result) {
               Line2: ProfileDesc[1],
               Line3: ProfileDesc[2],
             }
-          : { Help: "Sparkiesen has no description yet." };
+          : { Help: `${PlayerName} has no description yet.` };
       content = {
         ProfileInfo: contentCache,
         ProfileDescription: descriptionObj,
