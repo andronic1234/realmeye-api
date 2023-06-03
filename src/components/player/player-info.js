@@ -19,6 +19,7 @@ module.exports.PlayerInfo = function PlayerInfo(website, result) {
       let characters = [];
       let PlayerInfo = [];
       let CharacterList = [];
+      let ProfileDesc = [];
 
       const num = $(".active").find("a").text();
       let PlayerName = $(".entity-name", data).text();
@@ -32,6 +33,11 @@ module.exports.PlayerInfo = function PlayerInfo(website, result) {
             const value = $(this).text();
             PlayerInfo.push(value);
           });
+      });
+
+      $(".description-line", data).each(function () {
+        const descLines = $(this).text();
+        ProfileDesc.push(descLines);
       });
 
       $(".table-responsive table tbody tr", data).each(function () {
@@ -149,8 +155,17 @@ module.exports.PlayerInfo = function PlayerInfo(website, result) {
         }
       }
       let contentCache = { ...content };
+      let descriptionObj =
+        ProfileDesc.length > 0
+          ? {
+              Line1: ProfileDesc[0],
+              Line2: ProfileDesc[1],
+              Line3: ProfileDesc[2],
+            }
+          : { Help: "Sparkiesen has no description yet." };
       content = {
         ProfileInfo: contentCache,
+        ProfileDescription: descriptionObj,
         CharacterInfo: CharacterList,
       };
       contentCache = {};
