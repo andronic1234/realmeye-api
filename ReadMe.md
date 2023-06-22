@@ -66,4 +66,4 @@ https://realmeye-api.glitch.me/player/<b>[Player_Name]</b>/<b>[Character]</b>/<b
 
 <br>
 
-##### _If you would like more data scraped from the website, message me on discord and I will implement it - Andronic123#8281_
+##### _If you would like more data scraped from the website, message me on discord and I will implement it - andr123_
