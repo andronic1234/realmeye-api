@@ -2,7 +2,7 @@ const cheerio = require("cheerio");
 const path = require("path");
 const axios = require("axios");
 const { createCanvas, loadImage } = require("canvas");
-const dyeData = require("../../resources/data/dyeData");
+const dyeData = require("../../resources/dyeData");
 let GetDyeData = dyeData.dyeData;
 let color = [];
 
@@ -155,10 +155,12 @@ module.exports.characterImg = async function characterImg(website, char, res) {
       const buffer = canvas.outputCanvas.toBuffer("image/png");
       res.status(200).end(buffer);
       color = [];
+      return;
     });
   } catch (err) {
     res.status(404).json({ error: "Could not get image" });
     console.log(err);
+    return;
   }
 
   function drawCloth(context, palette, image) {

@@ -59,7 +59,7 @@ module.exports.itemImg = async function itemImg(
       }
     });
 
-  if (Coords.length == 0) return res.status(404).json({ error: "Not Found" });
+  if (Coords.length == 0) return;
 
   try {
     const canvas = createCanvas(46, 46);
@@ -80,10 +80,10 @@ module.exports.itemImg = async function itemImg(
               46
             );
             const buffer = canvas.toBuffer("image/png");
-            res.status(200).end(buffer);
+            return res.status(200).end(buffer);
           });
         } catch {
-          res.status(404).json({ error: "Not Found" });
+          return res.status(404).json({ error: "Not Found" });
         }
         break;
       case "ability":
@@ -101,10 +101,10 @@ module.exports.itemImg = async function itemImg(
               46
             );
             const buffer = canvas.toBuffer("image/png");
-            res.status(200).end(buffer);
+            return res.status(200).end(buffer);
           });
         } catch {
-          res.status(404).json({ error: "Not Found" });
+          return res.status(404).json({ error: "Not Found" });
         }
         break;
       case "armor":
@@ -123,10 +123,10 @@ module.exports.itemImg = async function itemImg(
               46
             );
             const buffer = canvas.toBuffer("image/png");
-            res.status(200).end(buffer);
+            return res.status(200).end(buffer);
           });
         } catch {
-          res.status(404).json({ error: "Not Found" });
+          return res.status(404).json({ error: "Not Found" });
         }
         break;
       case "ring":
@@ -144,15 +144,14 @@ module.exports.itemImg = async function itemImg(
               46
             );
             const buffer = canvas.toBuffer("image/png");
-            res.status(200).end(buffer);
+            return res.status(200).end(buffer);
           });
         } catch {
-          res.status(404).json({ error: "Not Found" });
+          return res.status(404).json({ error: "Not Found" });
         }
         break;
       default:
-        res.status(404).json({ error: "Not Found" });
-        break;
+        return res.status(404).json({ error: "Not Found" });
     }
   } catch (err) {
     console.log(err);
