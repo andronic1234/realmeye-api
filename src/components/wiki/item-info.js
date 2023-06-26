@@ -132,7 +132,7 @@ module.exports.ItemInfo = function ItemInfo(website, result) {
             case "Feed":
               return { FeedPower: row.slice(2)[0] };
             case "Loot":
-              const Bag = $(rows).find("td img").attr("title");
+              const Bag = $(rows).find("td img").attr("title").substring(12);
               return { LootBag: Bag };
             default:
               return;
