@@ -16,10 +16,7 @@ module.exports.ItemInfo = function ItemInfo(website, result) {
 
       const Title = $(".row h1", data).text();
 
-      $(".wiki-page .table-responsive", data).each(function () {
-        // console.log($(this).text());
-      });
-      const Info = $(".wiki-page .table-responsive");
+      const Info = $(".wiki-page .table-responsive", data);
       const Description = $(Info).first().text().replace(/\r?\n/g, "");
       const InfoTable = $(Info)
         .children("table")
