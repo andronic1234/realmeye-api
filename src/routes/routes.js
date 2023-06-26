@@ -4,6 +4,7 @@ const { PlayerInfo } = require("../components/player/player-info");
 const { GuildInfo } = require("../components/guild/guild-info");
 const { itemImg } = require("../components/player/item-img");
 const { characterImg } = require("../components/player/character-img");
+const { ItemInfo } = require("../components/wiki/item-info");
 
 router.get("/", (req, res) => {
   res.send("Welcome to my RealmEye API");
@@ -34,6 +35,12 @@ router.get(`/guild/:guild`, (req, res) => {
   const website = `https://www.realmeye.com/guild/${guild}`;
   let result = res;
   GuildInfo(website, result);
+});
+
+router.get(`/wiki/:search`, async (req, res) => {
+  const search = req.params.search;
+  const website = `https://www.realmeye.com/wiki/${search}`;
+  ItemInfo(website, res);
 });
 
 module.exports = router;

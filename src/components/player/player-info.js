@@ -21,11 +21,10 @@ module.exports.PlayerInfo = function PlayerInfo(website, result) {
       let CharacterList = [];
       let ProfileDesc = [];
 
-      const num = $(".active").find("a").text();
       let PlayerName = $(".entity-name", data).text();
       if (PlayerName == "")
         return result.status(404).json({ error: "Not Found" });
-      let filter = true;
+
       $(".summary tbody tr", data).each(function () {
         $(this)
           .find("td", data)

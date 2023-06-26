@@ -2,7 +2,7 @@ const cheerio = require("cheerio");
 const path = require("path");
 const axios = require("axios");
 const { createCanvas, loadImage } = require("canvas");
-const dyeData = require("../../resources/dyeData");
+const dyeData = require("../../resources/data/dyeData");
 let GetDyeData = dyeData.dyeData;
 let color = [];
 

@@ -18,11 +18,19 @@ https://realmeye-api.glitch.me/guild/<b>[Guild_Name]</b>\*
 
 ##### \*The guild name is case sensitive.
 
-<br><br>
+<br>
 
 #### You can get info from players using the following parameters:
 
 https://realmeye-api.glitch.me/player/<b>[Player_Name]</b>
+
+<br>
+
+#### You can get info from items on the wiki using the following parameters:
+
+https://realmeye-api.glitch.me/wiki/<b>[Item_Name]</b>\*
+
+##### \*It is typed the same way realmeye's links are typed.
 
 <br>
 
@@ -66,4 +74,4 @@ https://realmeye-api.glitch.me/player/<b>[Player_Name]</b>/<b>[Character]</b>/<b
 
 <br>
 
-##### _If you would like more data scraped from the website, message me on discord and I will implement it - andr123_
+##### _If you would like more data scraped from the website or if you've found any issues with the API, message me on discord and I will fix it it - andr123_
