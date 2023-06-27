@@ -5,12 +5,13 @@ const { createCanvas, loadImage } = require("canvas");
 
 // creates image sets
 let originalImage = path.join(__dirname, "../../resources/renders.png");
+let err = false;
 
 module.exports.itemImg = async function itemImg(
   Coords,
   website,
   char,
-  res,
+  result,
   item
 ) {
   await axios(website, {
@@ -52,10 +53,13 @@ module.exports.itemImg = async function itemImg(
             }
           });
       });
+      if (Coords.length == 0) {
+        return result.status(404).json({ error: "Not Found" });
+      }
     })
     .catch(function (err) {
       if (err.response.status === 429) {
-        return res.status(429).json({ error: "Too many requests" });
+        return result.status(429).json({ error: "Too many requests" });
       }
     });
 
@@ -70,8 +74,8 @@ module.exports.itemImg = async function itemImg(
           loadImage(originalImage).then((image) => {
             context.drawImage(
               image,
-              Coords[0].Coordinates[0],
-              Coords[0].Coordinates[1],
+              Coords[0]?.Coordinates[0],
+              Coords[0]?.Coordinates[1],
               46,
               46,
               0,
@@ -80,10 +84,10 @@ module.exports.itemImg = async function itemImg(
               46
             );
             const buffer = canvas.toBuffer("image/png");
-            return res.status(200).end(buffer);
+            return result.status(200).end(buffer);
           });
         } catch {
-          return res.status(404).json({ error: "Not Found" });
+          return result.status(404).json({ error: "Not Found" });
         }
         break;
       case "ability":
@@ -91,8 +95,8 @@ module.exports.itemImg = async function itemImg(
           loadImage(originalImage).then((image) => {
             context.drawImage(
               image,
-              Coords[1].Coordinates[0],
-              Coords[1].Coordinates[1],
+              Coords[1]?.Coordinates[0],
+              Coords[1]?.Coordinates[1],
               46,
               46,
               0,
@@ -101,10 +105,10 @@ module.exports.itemImg = async function itemImg(
               46
             );
             const buffer = canvas.toBuffer("image/png");
-            return res.status(200).end(buffer);
+            return result.status(200).end(buffer);
           });
         } catch {
-          return res.status(404).json({ error: "Not Found" });
+          return result.status(404).json({ error: "Not Found" });
         }
         break;
       case "armor":
@@ -113,8 +117,8 @@ module.exports.itemImg = async function itemImg(
           loadImage(originalImage).then((image) => {
             context.drawImage(
               image,
-              Coords[2].Coordinates[0],
-              Coords[2].Coordinates[1],
+              Coords[2]?.Coordinates[0],
+              Coords[2]?.Coordinates[1],
               46,
               46,
               0,
@@ -123,10 +127,10 @@ module.exports.itemImg = async function itemImg(
               46
             );
             const buffer = canvas.toBuffer("image/png");
-            return res.status(200).end(buffer);
+            return result.status(200).end(buffer);
           });
         } catch {
-          return res.status(404).json({ error: "Not Found" });
+          return result.status(404).json({ error: "Not Found" });
         }
         break;
       case "ring":
@@ -134,8 +138,8 @@ module.exports.itemImg = async function itemImg(
           loadImage(originalImage).then((image) => {
             context.drawImage(
               image,
-              Coords[3].Coordinates[0],
-              Coords[3].Coordinates[1],
+              Coords[3]?.Coordinates[0],
+              Coords[3]?.Coordinates[1],
               46,
               46,
               0,
@@ -144,14 +148,14 @@ module.exports.itemImg = async function itemImg(
               46
             );
             const buffer = canvas.toBuffer("image/png");
-            return res.status(200).end(buffer);
+            return result.status(200).end(buffer);
           });
         } catch {
-          return res.status(404).json({ error: "Not Found" });
+          return result.status(404).json({ error: "Not Found" });
         }
         break;
       default:
-        return res.status(404).json({ error: "Not Found" });
+        return result.status(404).json({ error: "Not Found" });
     }
   } catch (err) {
     console.log(err);
