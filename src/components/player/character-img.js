@@ -170,7 +170,7 @@ module.exports.characterImg = async function characterImg(website, char, res) {
           context.drawImage(
             image,
             palette[2],
-            image.height - 48,
+            palette[3],
             palette[0],
             palette[1],
             row * palette[0] - 4,
