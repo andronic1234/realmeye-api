@@ -44,7 +44,7 @@ https://realmeye-api.glitch.me/player/<b>[Player_Name]</b>/<b>[Character]</b>
 
 https://realmeye-api.glitch.me/player/<b>[Player_Name]</b>/<b>[Character]</b>/<b>[Item]</b>\*
 
-##### \*e.g. <br> weapon | ability | armor | ring
+##### \*e.g. <br> weapon | ability | armor | ring | set (for the whole set)
 
 <br><br>
 

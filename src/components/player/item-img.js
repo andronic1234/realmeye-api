@@ -66,24 +66,41 @@ module.exports.itemImg = async function itemImg(
   if (Coords.length == 0) return;
 
   try {
-    const canvas = createCanvas(46, 46);
-    const context = canvas.getContext("2d");
+    const dimensions = {
+      width: 46,
+      height: 46,
+    };
+    const canvas = {
+      weaponCanvas: createCanvas(dimensions.width, dimensions.height),
+      abilityCanvas: createCanvas(dimensions.width, dimensions.height),
+      armorCanvas: createCanvas(dimensions.width, dimensions.height),
+      ringCanvas: createCanvas(dimensions.width, dimensions.height),
+      setCanvas: createCanvas(dimensions.width * 4, dimensions.height),
+    };
+    const contexts = {
+      weapon: canvas.weaponCanvas.getContext("2d"),
+      ability: canvas.abilityCanvas.getContext("2d"),
+      armor: canvas.armorCanvas.getContext("2d"),
+      ring: canvas.ringCanvas.getContext("2d"),
+      set: canvas.setCanvas.getContext("2d"),
+    };
+
     switch (item.toLowerCase()) {
       case "weapon":
         try {
           loadImage(originalImage).then((image) => {
-            context.drawImage(
+            contexts.weapon.drawImage(
               image,
               Coords[0]?.Coordinates[0],
               Coords[0]?.Coordinates[1],
-              46,
-              46,
+              dimensions.width,
+              dimensions.height,
               0,
               0,
-              46,
-              46
+              dimensions.width,
+              dimensions.height
             );
-            const buffer = canvas.toBuffer("image/png");
+            const buffer = canvas.weaponCanvas.toBuffer("image/png");
             return result.status(200).end(buffer);
           });
         } catch {
@@ -93,18 +110,18 @@ module.exports.itemImg = async function itemImg(
       case "ability":
         try {
           loadImage(originalImage).then((image) => {
-            context.drawImage(
+            contexts.ability.drawImage(
               image,
               Coords[1]?.Coordinates[0],
               Coords[1]?.Coordinates[1],
-              46,
-              46,
+              dimensions.width,
+              dimensions.height,
               0,
               0,
-              46,
-              46
+              dimensions.width,
+              dimensions.height
             );
-            const buffer = canvas.toBuffer("image/png");
+            const buffer = canvas.abilityCanvas.toBuffer("image/png");
             return result.status(200).end(buffer);
           });
         } catch {
@@ -115,18 +132,18 @@ module.exports.itemImg = async function itemImg(
       case "armour":
         try {
           loadImage(originalImage).then((image) => {
-            context.drawImage(
+            contexts.armor.drawImage(
               image,
               Coords[2]?.Coordinates[0],
               Coords[2]?.Coordinates[1],
-              46,
-              46,
+              dimensions.width,
+              dimensions.height,
               0,
               0,
-              46,
-              46
+              dimensions.width,
+              dimensions.height
             );
-            const buffer = canvas.toBuffer("image/png");
+            const buffer = canvas.armorCanvas.toBuffer("image/png");
             return result.status(200).end(buffer);
           });
         } catch {
@@ -136,18 +153,78 @@ module.exports.itemImg = async function itemImg(
       case "ring":
         try {
           loadImage(originalImage).then((image) => {
-            context.drawImage(
+            contexts.ring.drawImage(
               image,
               Coords[3]?.Coordinates[0],
               Coords[3]?.Coordinates[1],
-              46,
-              46,
+              dimensions.width,
+              dimensions.height,
               0,
               0,
-              46,
-              46
+              dimensions.width,
+              dimensions.height
             );
-            const buffer = canvas.toBuffer("image/png");
+            const buffer = canvas.ringCanvas.toBuffer("image/png");
+            return result.status(200).end(buffer);
+          });
+        } catch {
+          return result.status(404).json({ error: "Not Found" });
+        }
+        break;
+      case "set":
+      case "all":
+        try {
+          loadImage(originalImage).then((image) => {
+            contexts.weapon.drawImage(
+              image,
+              Coords[0]?.Coordinates[0],
+              Coords[0]?.Coordinates[1],
+              dimensions.width,
+              dimensions.height,
+              0,
+              0,
+              dimensions.width,
+              dimensions.height
+            );
+            contexts.ability.drawImage(
+              image,
+              Coords[1]?.Coordinates[0],
+              Coords[1]?.Coordinates[1],
+              dimensions.width,
+              dimensions.height,
+              0,
+              0,
+              dimensions.width,
+              dimensions.height
+            );
+            contexts.armor.drawImage(
+              image,
+              Coords[2]?.Coordinates[0],
+              Coords[2]?.Coordinates[1],
+              dimensions.width,
+              dimensions.height,
+              0,
+              0,
+              dimensions.width,
+              dimensions.height
+            );
+            contexts.ring.drawImage(
+              image,
+              Coords[3]?.Coordinates[0],
+              Coords[3]?.Coordinates[1],
+              dimensions.width,
+              dimensions.height,
+              0,
+              0,
+              dimensions.width,
+              dimensions.height
+            );
+            contexts.set.drawImage(canvas.weaponCanvas, 0, 0);
+            contexts.set.drawImage(canvas.abilityCanvas, 46, 0);
+            contexts.set.drawImage(canvas.armorCanvas, 92, 0);
+            contexts.set.drawImage(canvas.ringCanvas, 138, 0);
+
+            const buffer = canvas.setCanvas.toBuffer("image/png");
             return result.status(200).end(buffer);
           });
         } catch {
