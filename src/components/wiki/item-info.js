@@ -2,6 +2,7 @@ const cheerio = require("cheerio");
 const axios = require("axios");
 
 module.exports.ItemInfo = function ItemInfo(website, result) {
+  const values = [];
   axios(website, {
     headers: {
       "User-Agent":
@@ -50,8 +51,12 @@ module.exports.ItemInfo = function ItemInfo(website, result) {
             case "Explosion":
               return { ExplosionRadius: row.slice(2).join(" ") };
             case "Shots":
+              if (values.includes("Shots")) return;
+              values.push(row[0]);
               return { Shots: row.slice(1).join(" ") };
             case "Damage":
+              if (values.includes("Damage")) return;
+              values.push(row[0]);
               if (row.slice(1).join(" ") === "") return;
               return { Damage: row.slice(1).join(" ") };
             case "Defense":
@@ -68,12 +73,18 @@ module.exports.ItemInfo = function ItemInfo(website, result) {
               if (row[1] === "Damage")
                 return { TotalDamage: row.slice(2).join(" ") };
             case "Projectile":
+              if (values.includes("Projectile")) return;
+              values.push(row[0]);
               return { ProjectileSpeed: row.slice(2).join(" ") };
             case "Lifetime":
+              if (values.includes("Lifetime")) return;
+              values.push(row[0]);
               return { Lifetime: row.slice(1).join(" ") };
             case "Range":
               if (row[1] === "Multiplier")
                 return { RangeMultiplier: row.slice(2).join(" ") };
+              if (values.includes("Range")) return;
+              values.push(row[0]);
               return { Range: row.slice(1).join(" ") };
             case "Stat":
               if (row[1] === "Multiplier")
@@ -104,6 +115,8 @@ module.exports.ItemInfo = function ItemInfo(website, result) {
             case "Frequency":
               return { Frequency: row.slice(1).join(" ") };
             case "Effect(s)":
+              if (values.includes("Effect(s)")) return;
+              values.push(row[0]);
               return { Effects: row.slice(1).join(" ").trim() };
             case "Decoy":
               if (row[1] === "Distance")
