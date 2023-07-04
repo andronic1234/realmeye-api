@@ -54,6 +54,8 @@ module.exports.characterSets = async function characterSets(website, result) {
           });
         CharCoords = {};
       });
+      if (content.length == 0)
+        return result.status(404).json({ error: "Not Found" });
     })
     .catch(function (err) {
       if (err.response.status === 429) {
@@ -61,7 +63,6 @@ module.exports.characterSets = async function characterSets(website, result) {
       }
     });
   if (content.length == 0) return;
-
   try {
     loadImage(originalImage).then((image) => {
       Object.keys(content).forEach((key) => {
