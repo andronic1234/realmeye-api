@@ -46,6 +46,14 @@ https://realmeye-api.glitch.me/player/<b>[Player_Name]</b>/<b>[Character]</b>/<b
 
 ##### \*e.g. <br> weapon | ability | armor | ring | set (for the whole set)
 
+<br>
+
+#### To get all character sets at once, use this endpoint instead:
+
+https://realmeye-api.glitch.me/player/<b>[Player_Name]</b>/<b>[Character]</b>/sets
+
+##### (Responds with an object containing an image array buffer for each character)
+
 <br><br>
 
 #### If you want to run the API locally, you can do so by running this command on the terminal:
