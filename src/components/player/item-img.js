@@ -5,7 +5,6 @@ const { createCanvas, loadImage } = require("canvas");
 
 // creates image sets
 let originalImage = path.join(__dirname, "../../resources/renders.png");
-let err = false;
 
 module.exports.itemImg = async function itemImg(
   Coords,

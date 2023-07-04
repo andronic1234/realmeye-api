@@ -5,15 +5,23 @@ const { GuildInfo } = require("../components/guild/guild-info");
 const { itemImg } = require("../components/player/item-img");
 const { characterImg } = require("../components/player/character-img");
 const { ItemInfo } = require("../components/wiki/item-info");
+const { characterSets } = require("../components/player/character-sets");
 
 router.get("/", (req, res) => {
   res.send("Welcome to my RealmEye API");
 });
+
 router.get(`/player/:name`, (req, res) => {
   const player = req.params.name;
   const website = `https://www.realmeye.com/player/${player}`;
   let result = res;
   PlayerInfo(website, result);
+});
+router.get(`/player/:name/sets`, (req, res) => {
+  const player = req.params.name;
+  const website = `https://www.realmeye.com/player/${player}`;
+  let result = res;
+  characterSets(website, result);
 });
 router.get(`/player/:name/:char`, async (req, res) => {
   const player = req.params.name;
