@@ -22,6 +22,10 @@ module.exports.characterSets = async function characterSets(website, result) {
       const data = res.data;
       const $ = cheerio.load(data);
 
+      let PlayerName = $(".entity-name", data).text();
+      if (PlayerName == "")
+        return result.status(404).json({ error: "Not Found" });
+
       $(".table-responsive table tbody", data).each(function () {
         $(this)
           .find("tr", data)

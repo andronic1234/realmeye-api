@@ -4,7 +4,7 @@ const axios = require("axios");
 const path = require("path");
 const { characterDyeData } = require("./fetch-dyeData");
 
-let ItemImgUrl = "https://www.realmeye.com/s/bb/css/renders.png";
+let ItemImgUrl = "https://www.realmeye.com/s/fq/css/renders.png";
 let CharacterImgUrl = "https://www.realmeye.com/s/fj/img/sheets.png";
 
 module.exports.fetchFiles = function fetchFiles() {
